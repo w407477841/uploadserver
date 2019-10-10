@@ -90,7 +90,7 @@ public class UploadController {
 
             File[]  files =  dir.listFiles();
             for (File file : files) {
-                data.add("118.24.111.210/"+username+"/"+file.getName());
+                data.add("http://118.24.111.210/"+username+"/"+file.getName());
             }
         }
         result.put("code", 200);

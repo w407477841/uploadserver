@@ -60,11 +60,13 @@
             };
         },
         methods: {
+
             search:function () {
-                // 为给定 ID 的 user 创建请求
+                var _this = this;
+                    // 为给定 ID 的 user 创建请求
                 axios.get('/search?username=abc')
                     .then(function (response) {
-                        this.urls = response.data;
+                        _this.urls = response.data.data;
                         console.log(response);
                     })
                     .catch(function (error) {
