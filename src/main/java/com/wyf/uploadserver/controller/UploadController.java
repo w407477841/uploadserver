@@ -1,5 +1,6 @@
 package com.wyf.uploadserver.controller;
 
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.lang.Dict;
 import cn.hutool.core.lang.UUID;
@@ -7,15 +8,16 @@ import cn.hutool.core.util.StrUtil;
 import com.wyf.uploadserver.config.UploadProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
+import java.io.FileFilter;
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping
@@ -68,6 +70,34 @@ public class UploadController {
         return result;
 
     }
+
+    @GetMapping("search")
+    public Object search(String username){
+        Map<String, Object> result = new HashMap<>();
+        if (StrUtil.isBlank(username)) {
+            result.put("code", 400);
+            result.put("msg", "缺少参数[username]");
+            return result;
+        }
+        File dir = new File(properties.getBaseUrl() + username);
+        if(!dir.exists()){
+            result.put("code", 200);
+            result.put("data", Collections.EMPTY_LIST);
+            return result;
+        }
+        List<String> data = new ArrayList<>(1024);
+        if(dir.isDirectory()){
+
+            File[]  files =  dir.listFiles();
+            for (File file : files) {
+                data.add("http://118.24.111.210/"+username+"/"+file.getName());
+            }
+        }
+        result.put("code", 200);
+        result.put("data", data);
+        return result;
+    }
+
 
 
     private String newFileName(String filename) {

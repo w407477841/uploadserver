@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+
+    <style>
+        .avatar-uploader .el-upload {
+            border: 1px dashed #d9d9d9;
+            border-radius: 6px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        .avatar-uploader .el-upload:hover {
+            border-color: #409EFF;
+        }
+        .avatar-uploader-icon {
+            font-size: 28px;
+            color: #8c939d;
+            width: 178px;
+            height: 178px;
+            line-height: 178px;
+            text-align: center;
+        }
+        .avatar {
+            width: 178px;
+            height: 178px;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+<h1>文件上传</h1>
+
+<div id="app">
+    <button @click="search">search</button>
+    <div class="demo-image__lazy">
+        <el-image v-for="url in urls" :key="url" :src="url" lazy></el-image>
+    </div>
+</div>
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<!-- 引入组件库 -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+<script>
+
+
+    new Vue({
+        el: '#app',
+        data() {
+            return {
+                urls: []
+            };
+        },
+        methods: {
+
+            search:function () {
+                var _this = this;
+                    // 为给定 ID 的 user 创建请求
+                axios.get('/search?username=abc')
+                    .then(function (response) {
+                        _this.urls = response.data.data;
+                        console.log(response);
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            }
+        }
+    })
+
+</script>
+</body>
+</html>
