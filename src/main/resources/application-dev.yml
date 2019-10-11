@@ -4,3 +4,4 @@
 
 upload:
   base-url: C:\upload\
+  ip: 192.168.0.52

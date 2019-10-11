@@ -9,4 +9,6 @@ public class UploadProperties {
 
     private String baseUrl;
 
+    private String ip;
+
 }
